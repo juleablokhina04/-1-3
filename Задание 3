@@ -1,0 +1,35 @@
+#Задание 3. Посчитать регрессионную зависимость высоты от диаметра ствола для район Черёмушки Клен остролистный
+
+library(tidyverse) 
+library(dplyr) 
+library(readr) 
+library(sf) 
+library(jsonlite) 
+ 
+ 
+greendb = read_csv(file = "greendb.csv") 
+ 
+greendb %>% summary 
+greendb |> summary() 
+ 
+data = greendb %>% 
+ filter(species_ru == "Клен остролистный", adm_region == "Черёмушки") %>% select( 
+ height_m, d_trunk_m 
+ ) 
+ 
+model = lm(d_trunk_m ~ height_m, data) 
+ 
+summary(model) 
+ 
+# Multiple R-squared: 0.002493, Adjusted R-squared: 0.001163 
+# F-statistic: 1.874 on 143 and 107227 DF, p-value: 1.247e-09 
+ 
+print(anova(model)) 
+ 
+# Analysis of Variance Table 
+# Response: height_m 
+# Df Sum Sq Mean Sq F value Pr(>F) 
+# adm_region 143 2.7657e+08 1934051 1.8741 1.247e-09 *** 
+# Residuals 107227 1.1066e+11 1031970 
+# Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+# Зависит p < 0.05
