@@ -2,7 +2,7 @@
 
 library(dplyr) 
  
-data = read_csv("greendb.csv") 
+data = read_csv("D:/Математическое моделирование/greendb.csv")
  
 data = data %>% filter(species_ru == "Клен остролистный") 
 model = lm(height_m ~ adm_region, data) 
