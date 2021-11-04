@@ -7,7 +7,7 @@ library(sf)
 library(jsonlite) 
  
  
-greendb = read_csv(file = "greendb.csv") 
+greendb = read_csv("D:/Математическое моделирование/greendb.csv")
  
 greendb %>% summary 
 greendb |> summary() 
