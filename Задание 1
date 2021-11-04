@@ -1,0 +1,29 @@
+#Задание 1. Построить карту средних диаметров Клен остролистного по районам
+
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(tidyr)
+library(sf)
+library(ggplot2)
+library(ggthemes)
+
+map = read_csv ("D:/Математическое моделирование/greendb.csv")
+plot(map)
+
+average_d_trunk_m = greendb %>% filter(species_ru == "Клен остролистный", adm_region != "NA") %>% group_by(adm_region )%>%
+  summarise(
+    mean_d_trunk_m = mean(d_trunk_m, na.rm = TRUE)
+           )
+
+average_d_trunk_m_data = average_d_trunk_m %>% group_by(adm_region, mean_d_trunk_m) %>%
+  arrange(adm_region, desc(mean_d_trunk_m)) %>%
+  mutate(order = order(mean_d_trunk_m, decreasing = T)) %>%
+  filter( order == 1) %>% select(-order, - mean_d_trunk_m) %>%
+  rename (NAME = adm_region)
+
+map = left_join(map, average_d_trunk_m_data , by="NAME")
+
+ggplot() + geom_sf(data = map, aes(fill= average_d_trunk_m_data))+
+  theme_foundation() + theme(legend.title = element_blank())
+
