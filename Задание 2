@@ -1,0 +1,17 @@
+#Задание 2. Показать, что район произрастания значимо влияет на высоты произрастания Клена остролистного 
+
+library(dplyr) 
+ 
+data = read_csv("greendb.csv") 
+ 
+data = data %>% filter(species_ru == "Клен остролистный") 
+model = lm(height_m ~ adm_region, data) 
+ 
+print(anova(model)) 
+ 
+# Response: height_m 
+# Df Sum Sq Mean Sq F value Pr(>F) 
+# adm_region 143 2.7657e+08 1934051 1.8741 1.247e-09 *** 
+# Residuals 107227 1.1066e+11 1031970 
+# Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+# Зависит
